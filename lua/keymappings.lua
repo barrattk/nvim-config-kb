@@ -1,6 +1,8 @@
 
 local opts = {noremap = true, silent = true}
 
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) -- leader is the Space
 
 vim.keymap.set('n', "<leader><leader>r", "<cmd>source %<CR>", {desc = "Source this file"});

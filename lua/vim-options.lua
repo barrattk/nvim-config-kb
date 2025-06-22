@@ -62,6 +62,8 @@ vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.opt.spelllang="en_gb"
 
+vim.opt.winborder = "solid" -- https://neovim.io/doc/user/options.html#'winborder'
+
 -- Please see this for a list of colors :)
 -- https://i.pinimg.com/originals/aa/c1/aa/aac1aadcb55011e7e06ff651e99f61f1.png
 vim.api.nvim_set_hl(0, "Visual", {bg='darkseagreen1'}) -- black is OK
