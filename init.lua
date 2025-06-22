@@ -34,11 +34,11 @@ require('lazy').setup({
 -----------------------------------------------------------------------------------
 -- End lazy setup
 -----------------------------------------------------------------------------------
-
-require "vim-options"
-require 'keymappings'
-require 'commands'
-require 'auto-commands'
+require("lsp")
+require("vim-options")
+require("keymappings")
+require("commands")
+require("auto-commands")
 
 -- vim.keymap.set('n', '<Leader>df', function()
 --   local widgets = require('dap.ui.widgets')
