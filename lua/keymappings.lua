@@ -89,7 +89,6 @@ vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
 -- vim.keymap.set({'n', 't'}, '<M-1>', "<cmd>terminal<CR>", {desc = "Terminal"})
 
 
-vim.keymap.set('n', "<leader>hc", ":ClangdSwitchSourceHeader<CR>", {desc = 'ClangdSwitchSourceHeader'})
 
 
 -- vim_session is a builtin feature (not a project)
@@ -112,4 +111,49 @@ vim.keymap.set('n', '<leader>dd', function() vim.diagnostic.enable(false) end, {
 -- vim.keymap.set('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {silent=true, noremap=true, desc="Diagnostics toggle"})
 
 -------------------------------------------------------------------------------
+
+-- Adpated from https://neovim.discourse.group/t/switch-to-h-cpp-via-lsp/813/10
+function SwitchSourceHeader()
+    -- print(opts.name)
+    -- print(vim.api.nvim_buf_get_name(bufnr))
+    -- print(opts.fargs)
+    -- print(vim.lsp.get_clients({bufnr = 0}))
+    -- print(vim.lsp.get_clients({method = 'textdocument/switchSourceHeader'}))
+    -- print(vim.lsp.get_clients())
+    local bufnr = vim.api.nvim_get_current_buf()
+    local method = 'textDocument/switchSourceHeader'
+    local clients = vim.lsp.get_clients({method = method})
+    print(clients[1].name)  -- clangd  :)
+    if next(clients) == nil then
+      print("on client")
+      print(bufnr)
+    end
+
+    -- if next(clients) ~= nil then
+    if clients[1].name == "clangd" then
+      local params = { uri = vim.uri_from_bufnr(bufnr) }
+      local client = clients[1]
+
+      vim.lsp.client.request(client, method, params, function(err, result)
+          if err then
+            error(tostring(err))
+          end
+          if not result then
+            print("corresponding file can’t be determined")
+            return
+          end
+          -- print(result)
+          -- vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
+          -- vim.api.nvim_command(":vsplit ".. vim.uri_to_fname(result))
+          vim.api.nvim_command(":edit" .. " " .. vim.uri_to_fname(result))
+        end, bufnr)
+    else
+      print("Client does not support " .. method)
+    end
+end
+
+local cmd = vim.api.nvim_create_user_command
+cmd('SwitchSourceHeader', SwitchSourceHeader, { nargs = 0 })
+vim.keymap.set('n', "<leader>hc", ":SwitchSourceHeader<CR>", {desc = 'LspClangdSwitchSourceHeader'})
+-- vim.keymap.set('n', "<leader>hc", ":LspClangdSwitchSourceHeader<CR>", {desc = 'LspClangdSwitchSourceHeader'})
 
