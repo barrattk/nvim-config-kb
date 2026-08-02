@@ -30,6 +30,10 @@ M.config = function()
         '-uu', -- Unrestricted !-- two -u flags means search hidden files and directories "--hidden" also works
         '-L', -- follow symoblic links
       },
+      file_ignore_patterns = {
+        "_build",
+        "builds"
+        },
       mappings = {
         i = {
           ['<C-u>'] = false,

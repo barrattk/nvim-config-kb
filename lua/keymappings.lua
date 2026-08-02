@@ -110,7 +110,7 @@ vim.keymap.set('n', '<leader>dd', function() vim.diagnostic.enable(false) end, {
 -- vim.keymap.set('n', '<leader>dt', vim.diagnostic.reset, {silent=true, noremap=true, desc="Diagnostics toggle"})
 -- vim.keymap.set('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {silent=true, noremap=true, desc="Diagnostics toggle"})
 
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------- e----
 
 -- Adpated from https://neovim.discourse.group/t/switch-to-h-cpp-via-lsp/813/10
 function SwitchSourceHeader()
@@ -122,7 +122,12 @@ function SwitchSourceHeader()
     -- print(vim.lsp.get_clients())
     local bufnr = vim.api.nvim_get_current_buf()
     local method = 'textDocument/switchSourceHeader'
-    local clients = vim.lsp.get_clients({method = method})
+    -- local clients = vim.lsp.get_clients({method = method})
+    local clients = vim.lsp.get_clients {
+        bufnr = bufnr,
+        name = 'clangd',
+      }
+
     print(clients[1].name)  -- clangd  :)
     if next(clients) == nil then
       print("on client")

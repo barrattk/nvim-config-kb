@@ -1,9 +1,14 @@
 
 
 vim.lsp.enable({
-"clangd",
-"lua_ls",
-'bashls'
+  "clangd",
+  "lua_ls",
+  "bashls",
+  "pyright",
+  "cmakels",
+  "yamlls",
+  "jsonls",
+  "javals"
 })
 
 
